@@ -22,7 +22,7 @@ public class Starship extends Instance {
 
 
     @Override
-    void assignValues(JSONObject jsonObject) {
+    void assignValues(JSONObject jsonObject) throws JSONException {
 		name = jsonObject.getString("name");
 		model = jsonObject.getString("model"); 
 		starshipClass = jsonObject.getString("starship_class"); 
@@ -34,7 +34,7 @@ public class Starship extends Instance {
 		maxAtmospheringSpeed = jsonObject.getString("max_atmosphering_speed"); 
 		hyperdriveRating = jsonObject.getString("hyperdrive_rating"); 
 		mglt = jsonObject.getString("MGLT"); 
-		cargoCapacity = jsonObject.getString("cargo_capacity"); 
+		cargoCapacity = jsonObject.getString("cargo_capacity") + "kg";
 		consumables = jsonObject.getString("consumables"); 
 		
 		if(!createdFromJSON){
@@ -48,7 +48,21 @@ public class Starship extends Instance {
         String msg = ""; 
 		
 		msg += "name: " + name
-			+ "\nmodel: " + 
+			    + "\nmodel: " + model
+                + "\nstarship class: " + starshipClass
+                + "\nmanufacturer: " + manufacturer
+                + "\ncost in credits: " + costInCredits
+                + "\nlength: " + length
+                + "\nminimum crew: " + crew
+                + "\nmaximum passengers: " + passengers
+                + "\nmax atmosphering speed: " + maxAtmospheringSpeed
+                + "\nhyperdrive rating: " + hyperdriveRating
+                + "\nMGLT: " + mglt
+                + "\ncargo capacity: " + cargoCapacity
+                + "\nconsumables: " + consumables
+                + "\n";
+
+		
 		
 		return msg; 
     }
