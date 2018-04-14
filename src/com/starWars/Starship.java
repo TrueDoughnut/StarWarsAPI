@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 public class Starship extends Instance {
 
-	String model, starshipClass, manufacturer, costInCredits,
+	private String model, starshipClass, manufacturer, costInCredits,
 		length, crew, passengers, maxAtmospheringSpeed, hyperdriveRating,
 		mglt, cargoCapacity, consumables; 
 	
@@ -62,8 +62,12 @@ public class Starship extends Instance {
                 + "\nconsumables: " + consumables
                 + "\n";
 
-		
-		
+		for(Instance instance : people){
+			msg += instance.name + " has piloted " + name + "\n";
+		}
+		for(Instance instance : films){
+			msg += name + "has been in " + instance.name + ".\n";
+		}
 		return msg; 
     }
 
