@@ -7,11 +7,11 @@ import org.json.JSONObject;
 
 public class Person extends Instance {
 
-    private String name, height, mass, hair_color, skin_color,
+    private String height, mass, hair_color, skin_color,
             eye_color, birth_year, gender, homeworld;
 
 
-    Person(String search){
+    Person(String[] search){
         super(search);
         setResource("people");
         search();
@@ -35,9 +35,6 @@ public class Person extends Instance {
         birth_year = personJSON.getString("birth_year");
         gender = personJSON.getString("gender");
 
-        String[] homeWorldName = personJSON.getString("homeworld").split("/");
-        homeworld = new Planet(Integer.valueOf(homeWorldName[homeWorldName.length-1]), true).name;
-
         //parse lists
 
         if(!createdFromJSON) {
@@ -56,6 +53,9 @@ public class Person extends Instance {
             //starships
             JSONArray starships = personJSON.getJSONArray("starships");
             getStarshipsArray(starships);
+
+            String[] homeWorldName = personJSON.getString("homeworld").split("/");
+            homeworld = new Planet(Integer.valueOf(homeWorldName[homeWorldName.length-1]), true).name;
         }
 
     }
@@ -77,7 +77,16 @@ public class Person extends Instance {
         msg += basicInfo;
 
         for (Instance film : films) {
-            msg += name + " has been in \"" + film.name + "\".\n";
+            msg += "This character has been in " + film.name + ".\n";
+        }
+        for(Instance species : species){
+            msg += "This character is a " + species.name;
+        }
+        for(Instance vehicle : vehicles){
+            msg += "This character has piloted " + vehicle.name;
+        }
+        for(Instance starship : starships){
+            msg += "This character has piloted " + starship.name;
         }
 
         return msg;

@@ -13,7 +13,7 @@ public class Planet extends Instance{
         setResource("planets/");
         getData();
     }
-    Planet(String search){
+    Planet(String search[]){
         super(search);
         setResource("planets");
         search();
@@ -56,7 +56,7 @@ public class Planet extends Instance{
             msg += person.name + " lived on this planet.\n";
         }
         for (Instance film : films) {
-            msg += name + " has been in \"" + film.name + "\".\n";
+            msg += "This planet has been in " + film.name + ".\n";
         }
 
 

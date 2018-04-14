@@ -14,7 +14,7 @@ public class Starship extends Instance {
         setResource("starships/");
         getData();
     }
-    Starship(String search){
+    Starship(String search[]){
         super(search);
         setResource("starships");
         getData();
@@ -63,10 +63,10 @@ public class Starship extends Instance {
                 + "\n";
 
 		for(Instance instance : people){
-			msg += instance.name + " has piloted " + name + "\n";
+			msg += instance.name + " has piloted this starship.\n";
 		}
 		for(Instance instance : films){
-			msg += name + "has been in " + instance.name + ".\n";
+			msg += "This starship has been in " + instance.name + ".\n";
 		}
 		return msg; 
     }

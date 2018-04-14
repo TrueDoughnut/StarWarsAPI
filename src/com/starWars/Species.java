@@ -15,7 +15,7 @@ public class Species extends Instance{
         setResource("species/");
         getData();
     }
-    Species(String search){
+    Species(String[] search){
         super(search);
         setResource("species");
         search();
@@ -34,10 +34,11 @@ public class Species extends Instance{
         language = jsonObject.getString("language");
         skinColors = jsonObject.getString("skin_colors");
 
-        String[] homeWorldName = jsonObject.getString("homeworld").split("/");
-        homeworld = new Planet(Integer.valueOf(homeWorldName[homeWorldName.length-1]), true).name;
 
         if(!createdFromJSON){
+            String[] homeWorldName = jsonObject.getString("homeworld").split("/");
+            homeworld = new Planet(Integer.valueOf(homeWorldName[homeWorldName.length-1]), true).name;
+
             getPeopleArray(jsonObject.getJSONArray("people"));
             getFilmsArray(jsonObject.getJSONArray("films"));
         }
@@ -61,10 +62,10 @@ public class Species extends Instance{
                 + "\n";
 
         for(Instance instance : people){
-            msg += instance.name + " is a " + this.name;
+            msg += instance.name + " is this species.\n";
         }
         for(Instance instance : films){
-            msg += this.name + "s are in " + instance.name;
+            msg += "This species is in " + instance.name + ".\n";
         }
 
         return msg;

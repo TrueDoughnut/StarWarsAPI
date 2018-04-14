@@ -27,10 +27,10 @@ public abstract class Instance implements Constants{
 
     boolean createdFromJSON = false;
 
-    String search;
+    String[] search;
     int id;
 
-    Instance(String search){
+    Instance(String[] search){
         this.search = search;
     }
     Instance(int id, boolean createdFromJSON){
@@ -40,19 +40,27 @@ public abstract class Instance implements Constants{
 
     void search() {
         try {
-            URL url = new URL(baseURL + resource + format + "&"
-                    + Constants.search + this.search);
+            URL url;
+            if(this.search.length <= 1) {
+                url = new URL(baseURL + resource + format + "&"
+                        + Constants.search + this.search[0]);
+            } else {
+                String createURL = baseURL + resource + format;
+                for(String str : search){
+                    createURL += "&" + Constants.search + str;
+                }
+                url = new URL(createURL);
+            }
 
-            JSONObject personJSON = Helper.getJSONObject(url).
+            JSONObject jsonObject = Helper.getJSONObject(url).
                     getJSONArray("results").getJSONObject(0);
-
-            assignValues(personJSON);
+            assignValues(jsonObject);
 
         } catch(JSONException e){
-            System.out.println("There is no character with that name.");
-        } catch(IOException e){
+            System.out.println("That search has no results.");
+            System.exit(1);
+        } catch(IOException | IndexOutOfBoundsException e){
             e.printStackTrace();
-        } finally {
             System.exit(1);
         }
     }

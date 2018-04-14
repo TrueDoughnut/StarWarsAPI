@@ -18,7 +18,7 @@ public class Film extends Instance {
         setResource("films/");
         getData();
     }
-    Film(String search){
+    Film(String search[]){
         super(search);
         setResource("films");
         search();
@@ -70,10 +70,12 @@ public class Film extends Instance {
 
     private String addLists(){
         String msg = "";
+
         for(ArrayList<Instance> arrayList : usedArrays){
             for(Instance instance : arrayList){
                 msg += instance.name + " was in this movie.\n";
             }
+            msg += "\n";
         }
         return msg;
     }

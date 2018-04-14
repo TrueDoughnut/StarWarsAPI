@@ -22,22 +22,27 @@ public class Main {
 
         switch(input){
             case "films":
+                sc.nextLine();
                 films(sc);
                 break;
 
             case "people":
+                sc.nextLine();
                 people(sc);
                 break;
 
             case "planets":
+                sc.nextLine();
                 planets(sc);
                 break;
 
             case "species":
+                sc.nextLine();
                 species(sc);
                 break;
 
             case "starships":
+                sc.nextLine();
                 starships(sc);
                 break;
 
@@ -56,6 +61,7 @@ public class Main {
                     return input;
                 }
             }
+            sc.nextLine();
             System.out.println("That isn't an option.");
         }
     }
@@ -74,7 +80,7 @@ public class Main {
             }
         } else if(input.trim().equalsIgnoreCase("search")){
             System.out.println("Enter the search");
-            person = new Person(sc.nextLine());
+            person = new Person(sc.nextLine().split(" "));
         } else {
             System.out.println("That was not an option.");
             people(sc);
@@ -84,7 +90,6 @@ public class Main {
 
     private static void films(Scanner sc){
         System.out.println("ID or search?");
-        sc.nextLine();
         String input = sc.nextLine();
         Instance film = null;
         if(input.trim().equalsIgnoreCase("ID")){
@@ -96,9 +101,10 @@ public class Main {
             }
         } else if(input.trim().equalsIgnoreCase("search")){
             System.out.println("Enter the search");
-            film = new Film(sc.nextLine());
+            film = new Film(sc.nextLine().split(" "));
         } else {
             System.out.println("That was not an option.");
+
             films(sc);
         }
         System.out.println(film);
@@ -118,7 +124,7 @@ public class Main {
             }
         } else if(input.trim().equalsIgnoreCase("search")){
             System.out.println("Enter the search");
-            planet = new Planet(sc.nextLine());
+            planet = new Planet(sc.nextLine().split(" "));
         } else {
             System.out.println("That was not an option.");
             planets(sc);
@@ -140,7 +146,7 @@ public class Main {
             }
         } else if(input.trim().equalsIgnoreCase("search")){
             System.out.println("Enter the search");
-            species = new Species(sc.nextLine());
+            species = new Species(sc.nextLine().split(" "));
         } else {
             System.out.println("That was not an option.");
             species(sc);
@@ -163,7 +169,7 @@ public class Main {
             }
         } else if(input.trim().equalsIgnoreCase("search")){
             System.out.println("Enter the search");
-            starship = new Starship(sc.nextLine());
+            starship = new Starship(sc.nextLine().split(" "));
         } else {
             System.out.println("That was not an option.");
             starships(sc);
@@ -186,7 +192,7 @@ public class Main {
             }
         } else if(input.trim().equalsIgnoreCase("search")){
             System.out.println("Enter the search");
-            vehicle = new Vehicle(sc.nextLine());
+            vehicle = new Vehicle(sc.nextLine().split(" "));
         } else {
             System.out.println("That was not an option.");
             vehicles(sc);
