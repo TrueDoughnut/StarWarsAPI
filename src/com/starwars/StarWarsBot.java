@@ -12,6 +12,8 @@ import java.util.Arrays;
 
 public class StarWarsBot extends Bot {
 
+
+
     private static ArrayList<String> resources = new ArrayList<>();
 
     public StarWarsBot(DataInputStream dis, DataOutputStream dos) {
