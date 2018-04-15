@@ -2,206 +2,154 @@ package com.starwars;
 
 import com.cfs.bot.Bot;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.Arrays;
 
 
 public class StarWarsBot extends Bot {
 
     private static ArrayList<String> resources = new ArrayList<>();
 
-    public StarWarsBot(){
-        Scanner sc = new Scanner(System.in);
-
+    public StarWarsBot(DataInputStream dis, DataOutputStream dos) {
+        super("swapi", dis, dos);
+        name = "Star Wars Bot";
         resources.add("films");
         resources.add("people");
         resources.add("planets");
         resources.add("species");
         resources.add("starships");
         resources.add("vehicles");
-
-        String input = getResource(sc);
-
-        switch(input){
-            case "films":
-                sc.nextLine();
-                films(sc);
-                break;
-
-            case "people":
-                sc.nextLine();
-                people(sc);
-                break;
-
-            case "planets":
-                sc.nextLine();
-                planets(sc);
-                break;
-
-            case "species":
-                sc.nextLine();
-                species(sc);
-                break;
-
-            case "starships":
-                sc.nextLine();
-                starships(sc);
-                break;
-
-            case "vehicles":
-                vehicles(sc);
-                break;
-        }
     }
 
-    private static String getResource(Scanner sc){
-        while(true){
-            System.out.println("Enter a resource. " + resources);
-            String input = sc.next().toLowerCase();
-            for(String str : resources){
-                if(str.equals(input)){
-                    return input;
+    private int id;
+    private String[] search;
+    private boolean isSearch;
+
+    @Override
+    public void run(String[] arr) throws IOException {
+        try {
+            String input = arr[1];
+            if (isResource(input)) {
+                try {
+                    id = Integer.valueOf(arr[2]);
+                    isSearch = false;
+                } catch (NumberFormatException e) {
+                    search = Arrays.copyOfRange(arr, 2, arr.length - 1);
+                    isSearch = true;
                 }
+
+                switch (input) {
+                    case "films":
+                        films(isSearch);
+                        break;
+
+                    case "people":
+                        people(isSearch);
+                        break;
+
+                    case "planets":
+                        planets(isSearch);
+                        break;
+
+                    case "species":
+                        species(isSearch);
+                        break;
+
+                    case "starships":
+                        starships(isSearch);
+                        break;
+
+                    case "vehicles":
+                        vehicles(isSearch);
+                        break;
+                }
+            } else {
+                dos.writeUTF("That isn't a resource.");
             }
-            sc.nextLine();
-            System.out.println("That isn't an option.");
+        } catch (IndexOutOfBoundsException e) {
+            dos.writeUTF("Not enough parameters");
         }
     }
 
-    private static void people(Scanner sc){
-        System.out.println("ID or search?");
-        sc.nextLine();
-        String input = sc.nextLine();
-        Person person = null;
-        if(input.trim().equalsIgnoreCase("ID")){
-            System.out.println("Enter the id");
-            try {
-                person = new Person(sc.nextInt(), false);
-            } catch(InputMismatchException e){
-                e.printStackTrace();
-            }
-        } else if(input.trim().equalsIgnoreCase("search")){
-            System.out.println("Enter the search");
-            person = new Person(sc.nextLine().split(" "));
-        } else {
-            System.out.println("That was not an option.");
-            people(sc);
-        }
-        System.out.println(person);
+    @Override
+    public String getInfo(){
+        return "Delimiter: \"!swapi\", "
+                + "\ntakes a resource, " + resources
+                + "\nand either a search term or id."
+                + "\nExample: !swapi people Luke Skywalker";
     }
 
-    private static void films(Scanner sc){
-        System.out.println("ID or search?");
-        String input = sc.nextLine();
-        Instance film = null;
-        if(input.trim().equalsIgnoreCase("ID")){
-            System.out.println("Enter the id");
-            try {
-                film = new Film(sc.nextInt(), false);
-            } catch(InputMismatchException e){
-                e.printStackTrace();
+    private boolean isResource(String input) {
+        for (String str : resources) {
+            if (input.equals(str)) {
+                return true;
             }
-        } else if(input.trim().equalsIgnoreCase("search")){
-            System.out.println("Enter the search");
-            film = new Film(sc.nextLine().split(" "));
-        } else {
-            System.out.println("That was not an option.");
-
-            films(sc);
         }
-        System.out.println(film);
+        return false;
     }
 
-    private static void planets(Scanner sc){
-        System.out.println("ID or search?");
-        sc.nextLine();
-        String input = sc.nextLine();
-        Instance planet = null;
-        if(input.trim().equalsIgnoreCase("ID")){
-            System.out.println("Enter the id");
-            try {
-                planet = new Planet(sc.nextInt(), false);
-            } catch(InputMismatchException e){
-                e.printStackTrace();
-            }
-        } else if(input.trim().equalsIgnoreCase("search")){
-            System.out.println("Enter the search");
-            planet = new Planet(sc.nextLine().split(" "));
+    private void people(boolean isSearch) throws IOException {
+        Person person;
+        if (isSearch) {
+            person = new Person(this.search);
         } else {
-            System.out.println("That was not an option.");
-            planets(sc);
+            person = new Person(id, false);
         }
-        System.out.println(planet);
+        dos.writeUTF(person.toString());
     }
 
-    private static void species(Scanner sc){
-        System.out.println("ID or search?");
-        sc.nextLine();
-        String input = sc.nextLine();
-        Instance species = null;
-        if(input.trim().equalsIgnoreCase("ID")){
-            System.out.println("Enter the id");
-            try {
-                species = new Species(sc.nextInt(), false);
-            } catch(InputMismatchException e){
-                e.printStackTrace();
-            }
-        } else if(input.trim().equalsIgnoreCase("search")){
-            System.out.println("Enter the search");
-            species = new Species(sc.nextLine().split(" "));
+    private void films(boolean isSearch) throws IOException {
+        Film film;
+        if (isSearch) {
+            film = new Film(this.search);
         } else {
-            System.out.println("That was not an option.");
-            species(sc);
+            film = new Film(id, false);
         }
-
-        System.out.println(species);
+        dos.writeUTF(film.toString());
     }
 
-    private static void starships(Scanner sc){
-        System.out.println("ID or search?");
-        sc.nextLine();
-        String input = sc.nextLine();
-        Instance starship = null;
-        if(input.trim().equalsIgnoreCase("ID")){
-            System.out.println("Enter the id");
-            try {
-                starship = new Starship(sc.nextInt(), false);
-            } catch(InputMismatchException e){
-                e.printStackTrace();
-            }
-        } else if(input.trim().equalsIgnoreCase("search")){
-            System.out.println("Enter the search");
-            starship = new Starship(sc.nextLine().split(" "));
+    private void planets(boolean isSearch) throws IOException {
+        Planet planet;
+        if (isSearch) {
+            planet = new Planet(this.search);
         } else {
-            System.out.println("That was not an option.");
-            starships(sc);
+            planet = new Planet(id, false);
         }
-
-        System.out.println(starship);
+        dos.writeUTF(planet.toString());
     }
 
-    private static void vehicles(Scanner sc){
-        System.out.println("ID or search?");
-        sc.nextLine();
-        String input = sc.nextLine();
-        Instance vehicle = null;
-        if(input.trim().equalsIgnoreCase("ID")){
-            System.out.println("Enter the id");
-            try {
-                vehicle = new Vehicle(sc.nextInt(), false);
-            } catch(InputMismatchException e){
-                e.printStackTrace();
-            }
-        } else if(input.trim().equalsIgnoreCase("search")){
-            System.out.println("Enter the search");
-            vehicle = new Vehicle(sc.nextLine().split(" "));
+    private void species(boolean isSearch) throws IOException {
+        Species species;
+        if (isSearch) {
+            species = new Species(this.search);
         } else {
-            System.out.println("That was not an option.");
-            vehicles(sc);
+            species = new Species(id, false);
         }
+        dos.writeUTF(species.toString());
+    }
 
-        System.out.println(vehicle);
+    private void starships(boolean isSearch) throws IOException {
+        Starship starship;
+        if (isSearch) {
+            starship = new Starship(this.search);
+        } else {
+            starship = new Starship(id, false);
+        }
+        dos.writeUTF(starship.toString());
+    }
+
+    private void vehicles(boolean isSearch) throws IOException {
+        Vehicle vehicle;
+        if (isSearch) {
+            vehicle = new Vehicle(this.search);
+        } else {
+            vehicle = new Vehicle(id, false);
+        }
+        dos.writeUTF(vehicle.toString());
     }
 
 }
