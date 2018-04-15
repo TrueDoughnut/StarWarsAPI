@@ -1,4 +1,4 @@
-package com.starWars;
+package com.starwars;
 
 import org.json.JSONArray;
 import org.json.JSONException;

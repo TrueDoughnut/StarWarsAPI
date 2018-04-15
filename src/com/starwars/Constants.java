@@ -1,4 +1,4 @@
-package com.starWars;
+package com.starwars;
 
 public interface Constants {
     String baseURL = "https://swapi.co/api/";

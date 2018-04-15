@@ -1,14 +1,17 @@
-package com.starWars;
+package com.starwars;
+
+import com.cfs.bot.Bot;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Main {
+
+public class StarWarsBot extends Bot {
 
     private static ArrayList<String> resources = new ArrayList<>();
 
-    public static void main(String[] args){
+    public StarWarsBot(){
         Scanner sc = new Scanner(System.in);
 
         resources.add("films");

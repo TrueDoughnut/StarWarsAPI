@@ -1,6 +1,6 @@
-package com.starWars;
+package com.starwars;
 
-import com.starWars.Helper.Helper;
+import com.starwars.Helper.Helper;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

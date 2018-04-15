@@ -1,4 +1,4 @@
-package com.starWars;
+package com.starwars;
 
 import org.json.JSONException;
 import org.json.JSONObject;
